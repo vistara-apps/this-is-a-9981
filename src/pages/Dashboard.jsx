@@ -1,7 +1,8 @@
 import React from 'react';
 import { useToken } from '../contexts/TokenContext';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, LineChart, Line, PieChart, Pie, Cell } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, LineChart, Line } from 'recharts';
 import { TrendingUp, Users, Coins, DollarSign } from 'lucide-react';
+import TokenDistributionGraph from '../components/TokenDistributionGraph';
 
 const Dashboard = () => {
   const { tokens, campaigns, investors } = useToken();
@@ -99,37 +100,14 @@ const Dashboard = () => {
         </div>
 
         {/* Token Distribution Chart */}
-        <div className="card-gradient rounded-lg p-6">
-          <h3 className="text-lg font-semibold text-dark-text mb-4">Token Distribution</h3>
-          <ResponsiveContainer width="100%" height={300}>
-            <PieChart>
-              <Pie
-                data={distributionData}
-                dataKey="value"
-                nameKey="name"
-                cx="50%"
-                cy="50%"
-                outerRadius={100}
-                fill="#8884d8"
-              >
-                {distributionData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={entry.color} />
-                ))}
-              </Pie>
-            </PieChart>
-          </ResponsiveContainer>
-          <div className="flex flex-wrap gap-4 mt-4">
-            {distributionData.map((item, index) => (
-              <div key={index} className="flex items-center space-x-2">
-                <div 
-                  className="w-3 h-3 rounded-full" 
-                  style={{ backgroundColor: item.color }}
-                ></div>
-                <span className="text-sm text-dark-muted">{item.name} ({item.value}%)</span>
-              </div>
-            ))}
-          </div>
-        </div>
+        <TokenDistributionGraph 
+          data={distributionData}
+          variant="default"
+          title="Token Distribution"
+          height={300}
+          showLegend={true}
+          showTooltip={true}
+        />
       </div>
 
       {/* Recent Activity */}
